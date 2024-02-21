@@ -4,6 +4,8 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Collections;
+import java.util.Set;
 
 import org.example.state.ISubscriber;
 import org.example.state.PrintInfoModel;
@@ -26,6 +28,8 @@ import javafx.stage.FileChooser.ExtensionFilter;
 
 public class View extends VBox {
     private final PrintInfoModel printInfoModel = new PrintInfoModel();
+
+    private final DateReader dateReader = new DateReader();
 
     private GridPane gp = new GridPane();
 
@@ -112,6 +116,20 @@ public class View extends VBox {
         File file = fileChooser.showOpenDialog(stage);
         if (file != null) {
             printInfoModel.setFile(file);
+            updateDateOptions(file);
+        }
+    }
+
+    private void updateDateOptions(File file) {
+        Set<LocalDate> dates = readDates(file);
+        datePicker.getItems().setAll(dates);
+    }
+
+    private Set<LocalDate> readDates(File file) {
+        try {
+            return dateReader.readDates(file);
+        } catch (IOException e) {
+            return Collections.emptySet();
         }
     }
 
