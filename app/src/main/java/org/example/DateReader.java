@@ -13,6 +13,8 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 public class DateReader {
+
+    private final DateParser dateParser = new DateParser();
     
     public Set<LocalDate> readDates(File file) throws IOException {
         FileInputStream inputStream = new FileInputStream(file);
@@ -25,7 +27,11 @@ public class DateReader {
     private Set<LocalDate> getDates(Row row) {
         HashSet<LocalDate> dates = new HashSet<>();
         row.cellIterator().forEachRemaining(cell -> {
-            
+            String content = cell.getStringCellValue();
+            if (dateParser.isValid(content)) {
+                LocalDate date = dateParser.parse(content);
+                dates.add(date);
+            }
         });
 
         return dates;

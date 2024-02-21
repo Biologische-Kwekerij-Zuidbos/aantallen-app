@@ -1,7 +1,9 @@
 package org.example;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.assertTrue;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -27,6 +29,20 @@ public class DateParserTest {
         String expectedExceptionMessage = "Text '22-12-202323456' could not be parsed at index 6";
         String actualExceptionMessage = exception.getMessage();
         assertEquals(expectedExceptionMessage, actualExceptionMessage);
+    }
+
+    @Test
+    public void testIsValid_WithValidDate() {
+        String dateString = "22-12-2023";
+        boolean isValid = dateParser.isValid(dateString);
+        assertTrue(isValid);
+    }
+
+    @Test
+    public void testIsValid_WithInvalidDate() {
+        String dateString = "22-12-202323456";
+        boolean isValid = dateParser.isValid(dateString);
+        assertFalse(isValid);
     }
 
 }
