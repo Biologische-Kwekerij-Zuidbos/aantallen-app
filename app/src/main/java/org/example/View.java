@@ -1,13 +1,19 @@
 package org.example;
 
-import org.example.model.SomeViewModel;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+
+import org.example.state.ISubscriber;
+import org.example.state.PrintInfoModel;
 
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
-import javafx.scene.control.DatePicker;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.layout.ColumnConstraints;
@@ -19,35 +25,43 @@ import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class View extends VBox {
+    private final PrintInfoModel printInfoModel = new PrintInfoModel();
+
     private GridPane gp = new GridPane();
 
     private FileChooser fileChooser = createFileChooser();
     private Button fileSelectButton = new Button("Selecteer..");
-    private DatePicker datePicker = new DatePicker();
+    private ChoiceBox<LocalDate> datePicker = new ChoiceBox<>();
 
     private Button printButton = new Button("Print");
 
     public View(final Stage stage) {
         createView(stage);
-        bindViewModel();
+        registerEvents();
     }
 
-    private final SomeViewModel viewModel = new SomeViewModel();
+    private void registerEvents() {
+        ISubscriber<PrintInfoModel> subscriber = new ISubscriber<PrintInfoModel>() {
 
-    private void bindViewModel() {
-        // fileSelectButton.onCLick
+            @Override
+            public void update(PrintInfoModel newState) {
+                boolean fileExists = newState.getFile() != null;
+                boolean dateExists = newState.getDate() != null;
+                boolean isPrintButtonEnabled = fileExists && dateExists;
+                datePicker.setDisable(!fileExists);
+                printButton.setDisable(!isPrintButtonEnabled);
+            }
+            
+        };
 
-        // Bindings.bindBidirectional(
-        //         tfAnnualSalary.textProperty(),
-        //         viewModel.annualSalaryProperty(),
-        //         new NumberStringConverter());
+        printInfoModel.getEvents().subscribe(subscriber);
     }
-
     private void createView(final Stage stage) {
         VBox gpwrap = new VBox();
         gpwrap.setAlignment(Pos.CENTER);
 
         datePicker.setDisable(true);
+        printButton.setDisable(true);
 
         gp.setPadding(new Insets(40));
         gp.setVgap(4);
@@ -64,8 +78,9 @@ public class View extends VBox {
 
         VBox.setVgrow(gpwrap, Priority.ALWAYS);
 
-        printButton.setOnAction(this::save);
+        printButton.setOnAction(this::openInExcel);
         fileSelectButton.setOnAction(event -> this.chooseFile(event, stage));
+        datePicker.setOnAction(this::datePicked);
 
         printButton.setDefaultButton(true);
 
@@ -81,12 +96,23 @@ public class View extends VBox {
                 buttonBar);
     }
 
-    private void save(ActionEvent evt) {
-        viewModel.save();
+    private void openInExcel(ActionEvent evt) {
+        try {
+            Desktop.getDesktop().open(printInfoModel.getFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void datePicked(ActionEvent evt) {
+        System.out.println(evt);
     }
 
     private void chooseFile(ActionEvent event, final Stage stage) {
-        fileChooser.showOpenDialog(stage);
+        File file = fileChooser.showOpenDialog(stage);
+        if (file != null) {
+            printInfoModel.setFile(file);
+        }
     }
 
     private FileChooser createFileChooser() {
