@@ -28,7 +28,10 @@ dependencies {
     implementation(libs.guava)
     // For reading and writing Excel files (*.xls, *.xlsx)
     // https://mvnrepository.com/artifact/org.apache.poi/poi
-    implementation("org.apache.poi:poi:3.9")
+    implementation("org.apache.poi:poi:5.2.5")
+    // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
+    implementation("org.apache.poi:poi-ooxml:5.2.5")
+
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
