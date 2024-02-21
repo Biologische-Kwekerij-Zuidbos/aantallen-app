@@ -16,11 +16,12 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
 
 public class View extends VBox {
     private GridPane gp = new GridPane();
 
-    private FileChooser fileChooser = new FileChooser();
+    private FileChooser fileChooser = createFileChooser();
     private Button fileSelectButton = new Button("Selecteer..");
     private DatePicker datePicker = new DatePicker();
 
@@ -45,6 +46,8 @@ public class View extends VBox {
     private void createView(final Stage stage) {
         VBox gpwrap = new VBox();
         gpwrap.setAlignment(Pos.CENTER);
+
+        datePicker.setDisable(true);
 
         gp.setPadding(new Insets(40));
         gp.setVgap(4);
@@ -85,4 +88,12 @@ public class View extends VBox {
     private void chooseFile(ActionEvent event, final Stage stage) {
         fileChooser.showOpenDialog(stage);
     }
+
+    private FileChooser createFileChooser() {
+        FileChooser fileChooser = new FileChooser();
+        ExtensionFilter extensionFilter = new ExtensionFilter("Excel file", "*.xls", "*.xlsx");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        return fileChooser;
+    }
+
 }
