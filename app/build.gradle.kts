@@ -35,7 +35,9 @@ dependencies {
 
     // Logging
     // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
-    implementation("org.apache.logging.log4j:log4j-core:2.23.0")
+    implementation(platform("org.apache.logging.log4j:log4j-bom:2.23.0"))
+    implementation("org.apache.logging.log4j:log4j-core")
+    implementation("org.apache.logging.log4j:log4j-api")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

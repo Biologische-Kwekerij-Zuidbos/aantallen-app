@@ -7,6 +7,8 @@ import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.state.ISubscriber;
 import org.example.state.PrintInfoModel;
 
@@ -27,6 +29,9 @@ import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
 public class View extends VBox {
+
+    private static final Logger LOGGER = LogManager.getLogger(View.class);
+
     private final PrintInfoModel printInfoModel = new PrintInfoModel();
 
     private final DateReader dateReader = new DateReader();
@@ -53,6 +58,7 @@ public class View extends VBox {
                 boolean dateExists = newState.getDate() != null;
                 boolean isPrintButtonEnabled = fileExists && dateExists;
                 datePicker.setDisable(!fileExists);
+                LOGGER.error("print knop " + isPrintButtonEnabled);
                 printButton.setDisable(!isPrintButtonEnabled);
             }
             
@@ -60,6 +66,7 @@ public class View extends VBox {
 
         printInfoModel.getEvents().subscribe(subscriber);
     }
+
     private void createView(final Stage stage) {
         VBox gpwrap = new VBox();
         gpwrap.setAlignment(Pos.CENTER);
@@ -109,7 +116,8 @@ public class View extends VBox {
     }
 
     private void datePicked(ActionEvent evt) {
-        System.out.println(evt);
+        LocalDate value = datePicker.getValue();
+        printInfoModel.setDate(value);
     }
 
     private void chooseFile(ActionEvent event, final Stage stage) {
@@ -129,6 +137,7 @@ public class View extends VBox {
         try {
             return dateReader.readDates(file);
         } catch (IOException e) {
+            LOGGER.error("Failed to read dates", e);
             return Collections.emptySet();
         }
     }
