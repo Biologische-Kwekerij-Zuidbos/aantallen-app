@@ -110,7 +110,7 @@ public class View extends VBox {
 
     private void openInExcel(ActionEvent evt) {
         try {
-            DocumentFactory factory = new DocumentFactory();
+            DocumentFactory factory = new DocumentFactory(printInfoModel.getFile());
             File file = factory.createFromDate(printInfoModel.getDate());
             Desktop.getDesktop().open(file);
         } catch (IOException e) {

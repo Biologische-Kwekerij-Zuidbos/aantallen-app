@@ -11,7 +11,11 @@ import org.example.reader.DocumentReader;
 
 public class DocumentFactory implements IDocumentFactory {
 
-    private final DocumentReader reader = new DocumentReader();
+    private final DocumentReader reader;
+
+    public DocumentFactory(File file) {
+        this.reader = new DocumentReader(file);
+    }
 
     @Override
     public File createFromDate(LocalDate date) throws IOException {

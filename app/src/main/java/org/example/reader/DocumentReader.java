@@ -1,10 +1,17 @@
 package org.example.reader;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
 
 public class DocumentReader implements IDocumentReader {
+
+    private final File file;
+
+    public DocumentReader(File file) {
+        this.file = file;
+    }
 
     @Override
     public Set<String> readAbsentPeopleNames(LocalDate date) {
