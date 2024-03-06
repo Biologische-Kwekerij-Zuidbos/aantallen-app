@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.factory.DocumentFactory;
 import org.example.state.ISubscriber;
 import org.example.state.PrintInfoModel;
 
@@ -109,7 +110,9 @@ public class View extends VBox {
 
     private void openInExcel(ActionEvent evt) {
         try {
-            Desktop.getDesktop().open(printInfoModel.getFile());
+            DocumentFactory factory = new DocumentFactory();
+            File file = factory.createFromDate(printInfoModel.getDate());
+            Desktop.getDesktop().open(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
