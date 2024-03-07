@@ -165,7 +165,7 @@ public class DocumentReader implements IDocumentReader {
         int index = 1;
         while (rowAtIndexIsNotBlank(sheet, index)) {
             Row row = sheet.getRow(index++);
-            if (row.getZeroHeight() || row.getHeight() < 1) continue;
+            if (row.getZeroHeight()) continue;
             rows.add(row);
         }
 

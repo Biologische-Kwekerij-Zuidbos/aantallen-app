@@ -33,8 +33,10 @@ public class DateReader {
     private SortedSet<LocalDate> getDates(Row row) {
         TreeSet<LocalDate> dates = createSortedDateSet();
         row.cellIterator().forEachRemaining(cell -> {
-            Optional<LocalDate> date = getDate(cell);
-            date.ifPresent(dates::add);
+            Optional<LocalDate> optDate = getDate(cell);
+            optDate
+                .filter(date -> date.isAfter(LocalDate.now().minusMonths(3)))
+                .ifPresent(dates::add);
         });
         return dates;
     }
