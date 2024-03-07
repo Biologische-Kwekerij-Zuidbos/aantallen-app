@@ -2,6 +2,7 @@ package org.example.builder;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
@@ -41,7 +42,7 @@ public class DocumentBuilder implements IDocumentBuilder {
     }
 
     @Override
-    public IDocumentBuilder withTotalPackagesInTwos(int total) {
+    public IDocumentBuilder withTotalPackagesInTwos(BigDecimal total) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'withTotalPackagesInTwos'");
     }

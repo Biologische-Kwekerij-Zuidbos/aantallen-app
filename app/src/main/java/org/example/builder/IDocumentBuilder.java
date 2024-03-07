@@ -1,6 +1,7 @@
 package org.example.builder;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Set;
 
@@ -21,6 +22,6 @@ public interface IDocumentBuilder {
 
     public IDocumentBuilder withTotalPeoplePerPackageSize(Map<Integer, Integer> totalPerPackageSize);
 
-    public IDocumentBuilder withTotalPackagesInTwos(int total);
+    public IDocumentBuilder withTotalPackagesInTwos(BigDecimal totalPackagesInTwos);
 
 }
