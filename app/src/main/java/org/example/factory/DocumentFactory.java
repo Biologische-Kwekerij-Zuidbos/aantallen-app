@@ -37,8 +37,8 @@ public class DocumentFactory implements IDocumentFactory {
         return new DocumentBuilder()
                 .withAbsentPeople(absentPeopleNames)
                 .withPresentPeopleAfterAbsence(presentPeopleAfterAbsenceNames)
-                .withTotalPackagesInTwos(totalPackagesInTwos)
-                .withTotalPeoplePerPackageSize(totalPeoplePerPackageSize)
+                // .withTotalPackagesInTwos(totalPackagesInTwos)
+                // .withTotalPeoplePerPackageSize(totalPeoplePerPackageSize)
                 .build();
     }
 

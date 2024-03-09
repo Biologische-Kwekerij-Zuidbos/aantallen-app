@@ -1,6 +1,7 @@
 package org.example.builder;
 
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Set;
@@ -14,7 +15,7 @@ import java.util.Set;
  */
 public interface IDocumentBuilder {
     
-    public File build();
+    public File build() throws IOException;
 
     public IDocumentBuilder withAbsentPeople(Set<String> names);
 
