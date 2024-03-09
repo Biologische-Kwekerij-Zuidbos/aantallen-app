@@ -36,6 +36,7 @@ public class DocumentFactory implements IDocumentFactory {
                 .withTotalPeoplePerPackageSize(totalPeoplePerPackageSize)
                 .withConversionDate()
                 .withDeliveryDate(date)
+                .withNarrowGaps()
                 .build();
     }
 

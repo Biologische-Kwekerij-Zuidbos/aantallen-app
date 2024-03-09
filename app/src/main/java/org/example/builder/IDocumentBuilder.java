@@ -30,4 +30,6 @@ public interface IDocumentBuilder {
 
     public IDocumentBuilder withDeliveryDate(LocalDate date);
 
+    public IDocumentBuilder withNarrowGaps();
+
 }
