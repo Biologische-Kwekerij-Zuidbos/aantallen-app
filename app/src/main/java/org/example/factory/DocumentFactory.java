@@ -1,3 +1,4 @@
+/* (C)2024 */
 package org.example.factory;
 
 import java.io.File;
@@ -6,7 +7,6 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.builder.DocumentBuilder;
@@ -25,9 +25,11 @@ public class DocumentFactory implements IDocumentFactory {
     @Override
     public File createFromDate(LocalDate date) throws IOException {
         Set<String> absentPeopleNames = reader.readAbsentPeopleNames(date);
-        Set<String> presentPeopleAfterAbsenceNames = reader.readPresentPeopleAfterAbsenceNames(date);
+        Set<String> presentPeopleAfterAbsenceNames =
+                reader.readPresentPeopleAfterAbsenceNames(date);
         BigDecimal totalPackagesInTwos = reader.readTotalPackagesInTwos(date);
-        Map<Integer, Integer> totalPeoplePerPackageSize = reader.readTotalPeoplePerPackageSize(date);
+        Map<Integer, Integer> totalPeoplePerPackageSize =
+                reader.readTotalPeoplePerPackageSize(date);
 
         return new DocumentBuilder()
                 .withAbsentPeople(absentPeopleNames)
@@ -39,5 +41,4 @@ public class DocumentFactory implements IDocumentFactory {
                 .withNarrowGaps()
                 .build();
     }
-
 }

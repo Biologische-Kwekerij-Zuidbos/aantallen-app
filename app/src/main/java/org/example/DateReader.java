@@ -1,3 +1,4 @@
+/* (C)2024 */
 package org.example;
 
 import java.io.File;
@@ -11,7 +12,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -32,21 +32,23 @@ public class DateReader {
 
     private SortedSet<LocalDate> getDates(Row row) {
         TreeSet<LocalDate> dates = createSortedDateSet();
-        row.cellIterator().forEachRemaining(cell -> {
-            Optional<LocalDate> optDate = getDate(cell);
-            optDate
-                .filter(date -> date.isAfter(LocalDate.now().minusMonths(3)))
-                .ifPresent(dates::add);
-        });
+        row.cellIterator()
+                .forEachRemaining(
+                        cell -> {
+                            Optional<LocalDate> optDate = getDate(cell);
+                            optDate.filter(date -> date.isAfter(LocalDate.now().minusMonths(3)))
+                                    .ifPresent(dates::add);
+                        });
         return dates;
     }
 
     private TreeSet<LocalDate> createSortedDateSet() {
-        Comparator<LocalDate> comparator = new Comparator<LocalDate>() {
-            public int compare(LocalDate a, LocalDate b) {
-                return a.compareTo(b);
-            }
-        };
+        Comparator<LocalDate> comparator =
+                new Comparator<LocalDate>() {
+                    public int compare(LocalDate a, LocalDate b) {
+                        return a.compareTo(b);
+                    }
+                };
 
         return new TreeSet<>(comparator);
     }
@@ -56,9 +58,8 @@ public class DateReader {
             Date date = cell.getDateCellValue();
             LocalDate localDate = LocalDateHelper.convertToLocalDateViaInstant(date);
             return Optional.of(localDate);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return Optional.empty();
         }
     }
-
 }

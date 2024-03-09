@@ -1,3 +1,4 @@
+/* (C)2024 */
 package org.example.reader;
 
 import java.io.File;
@@ -15,7 +16,6 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -35,16 +35,16 @@ public class DocumentReader implements IDocumentReader {
     private static final int PACKAGE_SIZE_COLUMN_INDEX = 5;
     private static final int NAME_COLUMN_INDEX = 1;
 
-    private static final Set<Short> RED_COLORS = Set.of(
-        IndexedColors.RED.getIndex(),
-        IndexedColors.RED1.getIndex(),
-        IndexedColors.DARK_RED.getIndex()
-    );
-    private static final Set<Short> WHITE_COLORS = Set.of(
-        IndexedColors.WHITE.getIndex(),
-        IndexedColors.WHITE1.getIndex(),
-        IndexedColors.AUTOMATIC.getIndex()
-    );
+    private static final Set<Short> RED_COLORS =
+            Set.of(
+                    IndexedColors.RED.getIndex(),
+                    IndexedColors.RED1.getIndex(),
+                    IndexedColors.DARK_RED.getIndex());
+    private static final Set<Short> WHITE_COLORS =
+            Set.of(
+                    IndexedColors.WHITE.getIndex(),
+                    IndexedColors.WHITE1.getIndex(),
+                    IndexedColors.AUTOMATIC.getIndex());
 
     private final File file;
     private final List<Row> rows;
@@ -57,28 +57,31 @@ public class DocumentReader implements IDocumentReader {
     @Override
     public Set<String> readAbsentPeopleNames(LocalDate date) throws IOException {
         int dateColumnIndex = readDateColumnIndex(date);
-        List<Row> absentPeopleRows = rows.stream().filter(filterAbsentPeople(dateColumnIndex)).toList();
+        List<Row> absentPeopleRows =
+                rows.stream().filter(filterAbsentPeople(dateColumnIndex)).toList();
         return getNamesFromRows(absentPeopleRows);
     }
 
     @Override
     public Set<String> readPresentPeopleAfterAbsenceNames(LocalDate date) throws IOException {
         int dateColumnIndex = readDateColumnIndex(date);
-        List<Row> presentAfterAbsentPeopleRows = rows
-            .stream()
-            .filter(filterAbsentPeople(dateColumnIndex - 1))
-            .filter(filterPresentPeople(dateColumnIndex))
-            .toList();
+        List<Row> presentAfterAbsentPeopleRows =
+                rows.stream()
+                        .filter(filterAbsentPeople(dateColumnIndex - 1))
+                        .filter(filterPresentPeople(dateColumnIndex))
+                        .toList();
         return getNamesFromRows(presentAfterAbsentPeopleRows);
     }
 
     @Override
     public Map<Integer, Integer> readTotalPeoplePerPackageSize(LocalDate date) throws IOException {
         int dateColumnIndex = readDateColumnIndex(date);
-        List<Row> presentPeopleRows = rows.stream().filter(filterPresentPeople(dateColumnIndex)).toList();
-        return presentPeopleRows
-            .stream()
-            .collect(Collectors.groupingBy(getPackageSizeFromRow(), Collectors.summingInt(x -> 1)));
+        List<Row> presentPeopleRows =
+                rows.stream().filter(filterPresentPeople(dateColumnIndex)).toList();
+        return presentPeopleRows.stream()
+                .collect(
+                        Collectors.groupingBy(
+                                getPackageSizeFromRow(), Collectors.summingInt(x -> 1)));
     }
 
     private Function<Row, Integer> getPackageSizeFromRow() {
@@ -91,17 +94,17 @@ public class DocumentReader implements IDocumentReader {
     @Override
     public BigDecimal readTotalPackagesInTwos(LocalDate date) throws IOException {
         Map<Integer, Integer> totalPeoplePerPackageSize = readTotalPeoplePerPackageSize(date);
-        double total = totalPeoplePerPackageSize.entrySet().stream()
-            .mapToDouble(entry -> (2 / entry.getKey()) * entry.getValue())
-            .sum();
+        double total =
+                totalPeoplePerPackageSize.entrySet().stream()
+                        .mapToDouble(entry -> (2 / entry.getKey()) * entry.getValue())
+                        .sum();
         return BigDecimal.valueOf(total).setScale(1, RoundingMode.HALF_UP);
     }
 
     private Set<String> getNamesFromRows(List<Row> peopleRows) {
-        return peopleRows
-            .stream()
-            .map(row -> row.getCell(NAME_COLUMN_INDEX).getStringCellValue())
-            .collect(Collectors.toSet());
+        return peopleRows.stream()
+                .map(row -> row.getCell(NAME_COLUMN_INDEX).getStringCellValue())
+                .collect(Collectors.toSet());
     }
 
     private Predicate<? super Row> filterAbsentPeople(int dateColumnIndex) {
@@ -178,5 +181,4 @@ public class DocumentReader implements IDocumentReader {
         Cell cell = row.getCell(NAME_COLUMN_INDEX);
         return !cell.getCellType().equals(CellType.BLANK);
     }
-    
 }

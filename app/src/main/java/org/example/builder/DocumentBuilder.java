@@ -1,3 +1,4 @@
+/* (C)2024 */
 package org.example.builder;
 
 import java.awt.Color;
@@ -13,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FillPatternType;
 import org.apache.poi.ss.usermodel.Row;
@@ -24,7 +24,8 @@ import org.example.DateFormatting;
 
 public class DocumentBuilder implements IDocumentBuilder {
 
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyyMMddHHmmssn");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER =
+            DateTimeFormatter.ofPattern("yyyyMMddHHmmssn");
 
     private static final int START_ROW = 4;
 
@@ -73,7 +74,8 @@ public class DocumentBuilder implements IDocumentBuilder {
     }
 
     @Override
-    public IDocumentBuilder withTotalPeoplePerPackageSize(Map<Integer, Integer> totalPerPackageSize) {
+    public IDocumentBuilder withTotalPeoplePerPackageSize(
+            Map<Integer, Integer> totalPerPackageSize) {
         sheet.setColumnWidth(4, 25 * 256);
         createHeaderCell(DocumentBuilder.START_ROW, 4, "Pakketaantallen");
 
@@ -179,5 +181,4 @@ public class DocumentBuilder implements IDocumentBuilder {
 
         return cell;
     }
-
 }

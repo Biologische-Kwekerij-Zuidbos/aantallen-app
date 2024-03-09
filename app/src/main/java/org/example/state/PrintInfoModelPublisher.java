@@ -1,7 +1,8 @@
+/* (C)2024 */
 package org.example.state;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public class PrintInfoModelPublisher implements IPublisher<PrintInfoModel> {
 
@@ -21,5 +22,4 @@ public class PrintInfoModelPublisher implements IPublisher<PrintInfoModel> {
     public void unsubscribe(ISubscriber<PrintInfoModel> subscriber) {
         this.subscribers.remove(subscriber);
     }
-
 }

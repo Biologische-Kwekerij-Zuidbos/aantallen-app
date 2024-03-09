@@ -1,3 +1,4 @@
+/* (C)2024 */
 package org.example.state;
 
 import java.io.File;
@@ -35,5 +36,4 @@ public class PrintInfoModel {
     private void notifyStateChange() {
         this.events.notifySubscribers(this);
     }
-
 }

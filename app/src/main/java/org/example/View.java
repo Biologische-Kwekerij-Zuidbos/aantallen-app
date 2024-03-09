@@ -1,3 +1,4 @@
+/* (C)2024 */
 package org.example;
 
 import java.awt.Desktop;
@@ -6,15 +7,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Set;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.example.factory.DocumentFactory;
-import org.example.state.ISubscriber;
-import org.example.state.PrintInfoModel;
-
 import javafx.event.ActionEvent;
-import javafx.util.StringConverter;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -27,10 +20,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
-
-import org.example.DateFormatting;
+import javafx.stage.Stage;
+import javafx.util.StringConverter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.example.factory.DocumentFactory;
+import org.example.state.ISubscriber;
+import org.example.state.PrintInfoModel;
 
 public class View extends VBox {
 
@@ -55,37 +52,38 @@ public class View extends VBox {
     }
 
     private void setDateFormatting() {
-        datePicker.setConverter(new StringConverter<LocalDate>() {
-            @Override
-            public String toString(LocalDate localDate) {
-                if (localDate == null) {
-                    return "";
-                }
+        datePicker.setConverter(
+                new StringConverter<LocalDate>() {
+                    @Override
+                    public String toString(LocalDate localDate) {
+                        if (localDate == null) {
+                            return "";
+                        }
 
-                return localDate.format(DateFormatting.DUTCH_DATE_TIME_FORMATTER);
-            }
+                        return localDate.format(DateFormatting.DUTCH_DATE_TIME_FORMATTER);
+                    }
 
-            @Override
-            public LocalDate fromString(String s) {
-                return (s == null || s.isEmpty()) ? null : LocalDate.parse(s);
-            }
-        });
+                    @Override
+                    public LocalDate fromString(String s) {
+                        return (s == null || s.isEmpty()) ? null : LocalDate.parse(s);
+                    }
+                });
     }
 
     private void registerEvents() {
-        ISubscriber<PrintInfoModel> subscriber = new ISubscriber<PrintInfoModel>() {
+        ISubscriber<PrintInfoModel> subscriber =
+                new ISubscriber<PrintInfoModel>() {
 
-            @Override
-            public void update(PrintInfoModel newState) {
-                boolean fileExists = newState.getFile() != null;
-                boolean dateExists = newState.getDate() != null;
-                boolean isPrintButtonEnabled = fileExists && dateExists;
-                datePicker.setDisable(!fileExists);
-                LOGGER.error("print knop " + isPrintButtonEnabled);
-                printButton.setDisable(!isPrintButtonEnabled);
-            }
-
-        };
+                    @Override
+                    public void update(PrintInfoModel newState) {
+                        boolean fileExists = newState.getFile() != null;
+                        boolean dateExists = newState.getDate() != null;
+                        boolean isPrintButtonEnabled = fileExists && dateExists;
+                        datePicker.setDisable(!fileExists);
+                        LOGGER.error("print knop " + isPrintButtonEnabled);
+                        printButton.setDisable(!isPrintButtonEnabled);
+                    }
+                };
 
         printInfoModel.getEvents().subscribe(subscriber);
     }
@@ -126,10 +124,7 @@ public class View extends VBox {
 
         buttonBar.getButtons().addAll(printButton);
 
-        this.getChildren().addAll(
-                gpwrap,
-                new Separator(),
-                buttonBar);
+        this.getChildren().addAll(gpwrap, new Separator(), buttonBar);
     }
 
     private void openInExcel(ActionEvent evt) {
@@ -175,5 +170,4 @@ public class View extends VBox {
         fileChooser.getExtensionFilters().add(extensionFilter);
         return fileChooser;
     }
-
 }
