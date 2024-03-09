@@ -29,16 +29,13 @@ public class DocumentFactory implements IDocumentFactory {
         BigDecimal totalPackagesInTwos = reader.readTotalPackagesInTwos(date);
         Map<Integer, Integer> totalPeoplePerPackageSize = reader.readTotalPeoplePerPackageSize(date);
 
-        LOGGER.error("Absent people names: " + absentPeopleNames);
-        LOGGER.error("Present people after absence names: " + presentPeopleAfterAbsenceNames);
-        LOGGER.error("Total packages in 2s: " + totalPackagesInTwos);
-        LOGGER.error("Total people per package size: " + totalPeoplePerPackageSize);
-
         return new DocumentBuilder()
                 .withAbsentPeople(absentPeopleNames)
                 .withPresentPeopleAfterAbsence(presentPeopleAfterAbsenceNames)
-                // .withTotalPackagesInTwos(totalPackagesInTwos)
-                // .withTotalPeoplePerPackageSize(totalPeoplePerPackageSize)
+                .withTotalPackagesInTwos(totalPackagesInTwos)
+                .withTotalPeoplePerPackageSize(totalPeoplePerPackageSize)
+                .withConversionDate()
+                .withDeliveryDate(date)
                 .build();
     }
 

@@ -3,6 +3,7 @@ package org.example.builder;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,5 +25,9 @@ public interface IDocumentBuilder {
     public IDocumentBuilder withTotalPeoplePerPackageSize(Map<Integer, Integer> totalPerPackageSize);
 
     public IDocumentBuilder withTotalPackagesInTwos(BigDecimal totalPackagesInTwos);
+
+    public IDocumentBuilder withConversionDate();
+
+    public IDocumentBuilder withDeliveryDate(LocalDate date);
 
 }
