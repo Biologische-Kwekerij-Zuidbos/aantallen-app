@@ -23,15 +23,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.example.factory.DocumentFactory;
 import org.example.state.ISubscriber;
 import org.example.state.PrintInfoModel;
 
 public class View extends VBox {
-
-    private static final Logger LOGGER = LogManager.getLogger(View.class);
 
     private final PrintInfoModel printInfoModel = new PrintInfoModel();
 
@@ -49,6 +45,9 @@ public class View extends VBox {
         createView(stage);
         registerEvents();
         setDateFormatting();
+
+
+
     }
 
     private void setDateFormatting() {
@@ -80,7 +79,6 @@ public class View extends VBox {
                         boolean dateExists = newState.getDate() != null;
                         boolean isPrintButtonEnabled = fileExists && dateExists;
                         datePicker.setDisable(!fileExists);
-                        LOGGER.error("print knop " + isPrintButtonEnabled);
                         printButton.setDisable(!isPrintButtonEnabled);
                     }
                 };
@@ -159,7 +157,6 @@ public class View extends VBox {
         try {
             return dateReader.readDates(file);
         } catch (IOException e) {
-            LOGGER.error("Failed to read dates", e);
             return Collections.emptySet();
         }
     }

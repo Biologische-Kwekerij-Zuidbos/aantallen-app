@@ -30,12 +30,6 @@ dependencies {
     implementation("org.apache.poi:poi:5.2.5")
     // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
     implementation("org.apache.poi:poi-ooxml:5.2.5")
-
-    // Logging
-    // https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core
-    implementation(platform("org.apache.logging.log4j:log4j-bom:2.23.0"))
-    implementation("org.apache.logging.log4j:log4j-core")
-    implementation("org.apache.logging.log4j:log4j-api")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

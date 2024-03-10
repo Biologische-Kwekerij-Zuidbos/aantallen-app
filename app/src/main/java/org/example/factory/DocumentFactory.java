@@ -7,14 +7,11 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.Set;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import org.example.builder.DocumentBuilder;
 import org.example.reader.DocumentReader;
 
 public class DocumentFactory implements IDocumentFactory {
-
-    private static final Logger LOGGER = LogManager.getLogger(DocumentFactory.class);
 
     private final DocumentReader reader;
 

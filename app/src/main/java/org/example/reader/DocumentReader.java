@@ -18,8 +18,6 @@ import java.util.function.Predicate;
 import java.util.function.ToDoubleFunction;
 import java.util.stream.Collectors;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
@@ -31,8 +29,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.example.LocalDateHelper;
 
 public class DocumentReader implements IDocumentReader {
-
-    private static final Logger LOGGER = LogManager.getLogger(DocumentReader.class);
 
     private static final int PACKAGE_SIZE_COLUMN_INDEX = 5;
     private static final int NAME_COLUMN_INDEX = 1;
