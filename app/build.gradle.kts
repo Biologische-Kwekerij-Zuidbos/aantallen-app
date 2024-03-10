@@ -9,8 +9,6 @@ plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
 
-    // Apply GraalVM Native Image plugin
-    id("org.graalvm.buildtools.native") version "0.10.1"
     id("org.openjfx.javafxplugin") version "0.1.0"
     id("com.diffplug.spotless") version "6.25.0"
 }
@@ -50,10 +48,6 @@ java {
 application {
     // Define the main class for the application.
     mainClass = "org.example.App"
-}
-
-graalvmNative {
-    toolchainDetection.set(true)
 }
 
 javafx {
