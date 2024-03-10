@@ -11,6 +11,7 @@ plugins {
 
     id("org.openjfx.javafxplugin") version "0.1.0"
     id("com.diffplug.spotless") version "6.25.0"
+    id("org.beryx.jlink") version "3.0.1"
 }
 
 repositories {
@@ -30,6 +31,9 @@ dependencies {
     implementation("org.apache.poi:poi:5.2.5")
     // https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml
     implementation("org.apache.poi:poi-ooxml:5.2.5")
+
+    implementation("org.apache.logging.log4j:log4j-api:2.23.0")
+    implementation("org.apache.logging.log4j:log4j-core:2.23.0")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -42,6 +46,16 @@ java {
 application {
     // Define the main class for the application.
     mainClass = "org.example.App"
+    mainModule = "org.example"
+}
+
+jlink {
+    options = listOf("--strip-debug", "--compress", "2", "--no-header-files", "--no-man-pages")
+    moduleName = "org.example"
+
+    launcher {
+        name = "Aantallen"
+    }
 }
 
 javafx {
