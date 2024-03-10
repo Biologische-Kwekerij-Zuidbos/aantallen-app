@@ -15,7 +15,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.ToDoubleFunction;
 import java.util.stream.Collectors;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -96,7 +98,7 @@ public class DocumentReader implements IDocumentReader {
         Map<Integer, Integer> totalPeoplePerPackageSize = readTotalPeoplePerPackageSize(date);
         double total =
                 totalPeoplePerPackageSize.entrySet().stream()
-                        .mapToDouble(entry -> (2 / entry.getKey()) * entry.getValue())
+                        .mapToDouble(calculatePackagesInTwosFromEntry())
                         .sum();
         return BigDecimal.valueOf(total).setScale(1, RoundingMode.HALF_UP);
     }
@@ -180,5 +182,13 @@ public class DocumentReader implements IDocumentReader {
         if (row == null) return false;
         Cell cell = row.getCell(NAME_COLUMN_INDEX);
         return !cell.getCellType().equals(CellType.BLANK);
+    }
+
+    private ToDoubleFunction<? super Map.Entry<Integer, Integer>> calculatePackagesInTwosFromEntry() {
+        return entry -> {
+            var packageSize = (double) entry.getKey();
+            var totalAmountOfPeople = (double) entry.getValue();
+            return packageSize / 2d * totalAmountOfPeople;
+        };
     }
 }
